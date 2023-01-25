@@ -1,6 +1,10 @@
 
 // example players todo: input
-let players = [158, 142, 114, 112, 110, 103, 60, 100, 100, 100];
+const enterPlayerButton = document.getElementById('enter-player-button')
+const getTeams = document.getElementById('get-teams')
+const playerList = document.getElementById('player-list')
+const output = document.getElementById('output')
+let players = [100, 156, 140, 112, 103];
 
 function sum_array(arr) {
     return arr.reduce((acc, a) => acc + a, 0);
@@ -27,8 +31,6 @@ function find_difference(arr) {
     }
 }
 
-differences = []
-
 function shuffle(array) {
     let currentIndex = array.length,  randomIndex;
   
@@ -48,6 +50,7 @@ function shuffle(array) {
 }
 
 // collect possible differences by shuffling players
+let differences = []
 // TODO: Maximum shuffles needed is given by some division of factorial (factorial too large to be worth it)
 let i = 0
 while (i < Math.pow(players.length, 4)) {

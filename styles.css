@@ -1,0 +1,19 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  padding: 5px;
+  margin: auto;
+}
+
+.form-control {
+  width: 50%;
+  margin-bottom: 10px;
+}
+
+.btn {
+  margin-bottom: 10px;
+}
+
+.form-text {
+  margin-bottom: 10px;
+}
