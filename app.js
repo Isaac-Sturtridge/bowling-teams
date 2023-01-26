@@ -1,10 +1,22 @@
 
-// example players todo: input
 const enterPlayerButton = document.getElementById('enter-player-button')
+let enterPlayer = document.getElementById('enter-player')
 const getTeams = document.getElementById('get-teams')
 const playerList = document.getElementById('player-list')
 const output = document.getElementById('output')
-let players = [100, 156, 140, 112, 103];
+let players = [];
+
+
+enterPlayerButton.addEventListener('click', () => {
+    if(parseInt(enterPlayer.value)) {
+      playerList.innerHTML = playerList.innerHTML + " " + enterPlayer.value;
+      players.push(parseInt(enterPlayer.value))
+    }
+    enterPlayer.value = ''
+  }
+) 
+
+
 
 function sum_array(arr) {
     return arr.reduce((acc, a) => acc + a, 0);
@@ -49,25 +61,28 @@ function shuffle(array) {
     return array;
 }
 
-// collect possible differences by shuffling players
-let differences = []
-// TODO: Maximum shuffles needed is given by some division of factorial (factorial too large to be worth it)
-let i = 0
-while (i < Math.pow(players.length, 4)) {
-    let difference = find_difference(players);
-    if (differences.indexOf(difference) == - 1) {
-        differences.push(difference);
-    }
-    shuffle(players);
-    i++;
-}
-
-console.log(differences)
-console.log(Math.min(...differences))
-
-// Find the ordering by which a minimum difference is outputted
-while (find_difference(players) != Math.min(...differences)) {
-    shuffle(players)
+function find_ordering(players) {
+  // collect possible differences by shuffling players
+  let differences = []
+  // TODO: Maximum shuffles needed is given by some division of factorial (factorial too large to be worth it)
+  let i = 0
+  while (i < Math.pow(players.length, 4)) {
+      let difference = find_difference(players);
+      if (differences.indexOf(difference) == - 1) {
+          differences.push(difference);
+      }
+      shuffle(players);
+      i++;
+  }
+  
+  console.log(differences)
+  console.log(Math.min(...differences))
+  
+  // Find the ordering by which a minimum difference is outputted
+  while (find_difference(players) != Math.min(...differences)) {
+      shuffle(players)
+  }
+  return players
 }
 
 // redoes the find_difference function but outputs the teams instead
@@ -85,7 +100,14 @@ function output_teams(arr) {
     }
     team1.sort((a, b) => b - a)
     team2.sort((a, b) => b - a)
-    return [team1, team2];
+    return "[Team 1: " + team1 + "], " + "[Team 2: " + team2 + "], ";
 }
 
-console.log(output_teams(players))
+getTeams.addEventListener('click', () => {
+    if(players.length > 0) {
+        players = find_ordering(players)
+        let teams = output_teams(players)
+        output.innerHTML = teams
+    }
+} 
+)
