@@ -1,9 +1,12 @@
 
-const enterPlayerButton = document.getElementById('enter-player-button')
-let enterPlayer = document.getElementById('enter-player')
-const getTeams = document.getElementById('get-teams')
-const playerList = document.getElementById('player-list')
-const output = document.getElementById('output')
+const enterPlayerButton = document.getElementById('enter-player-button');
+const removePlayerButton = document.getElementById('remove-player-button');
+let enterPlayer = document.getElementById('enter-player');
+const getTeams = document.getElementById('get-teams');
+const playerList = document.getElementById('player-list');
+const output = document.getElementById('output');
+const threeTeamsCheck = document.getElementById('three-teams');
+let threeTeams = false;
 let players = [];
 
 
@@ -16,7 +19,27 @@ enterPlayerButton.addEventListener('click', () => {
   }
 ) 
 
+removePlayerButton.addEventListener('click', () => {
+  players.pop()
+  playerList.innerHTML = "Players: " + formatPlayers(players)
+  }
+)
 
+threeTeamsCheck.addEventListener('change', () => {
+    if (!threeTeams) {
+        threeTeams = true;
+    } else {
+        threeTeams = false;
+    }
+})
+
+function formatPlayers(players) {
+  let returnString = '';
+  for (let i = 0; i < players.length; i++) {
+    returnString += ' ' + players[i]
+  }
+  return returnString;
+}
 
 function sum_array(arr) {
     return arr.reduce((acc, a) => acc + a, 0);
@@ -26,21 +49,18 @@ function sum_array(arr) {
 function find_difference(arr) {
     let team1 = [];
     let team2 = [];
-
+    let team3 = [];
+    let teams = [team1, team2]
+    if (threeTeams) {
+        teams = [team1, team2, team3]
+    } 
     for (let i = 0; i < arr.length; i++) {
-        if (sum_array(team1) <= sum_array(team2)) {
-            team1.push(arr[i])
-        }
-        else {
-            team2.push(arr[i])
-        }
+        let sum_team = teams.map((team) => sum_array(team))
+        let lowestTeam = sum_team.indexOf(Math.min(...sum_team))
+        teams[lowestTeam].push(arr[i])
     }
-    if (sum_array(team1) > sum_array(team2)) {
-        return sum_array(team1) - sum_array(team2)
-    }
-    else {
-        return sum_array(team2) - sum_array(team1)
-    }
+    sum_team = teams.map((team => sum_array(team)))
+    return Math.max(...sum_team) - Math.min(...sum_team)
 }
 
 function shuffle(array) {
@@ -89,18 +109,26 @@ function find_ordering(players) {
 function output_teams(arr) {
     let team1 = [];
     let team2 = [];
+    let team3 = [];
+    let teams = [team1, team2]
+    if (threeTeams) {
+        teams = [team1, team2, team3]
+    } 
 
     for (let i = 0; i < arr.length; i++) {
-        if (sum_array(team1) <= sum_array(team2)) {
-            team1.push(arr[i])
-        }
-        else {
-            team2.push(arr[i])
-        }
+        let sum_team = teams.map((team) => sum_array(team))
+        let lowestTeam = sum_team.indexOf(Math.min(...sum_team))
+        teams[lowestTeam].push(arr[i])
     }
     team1.sort((a, b) => b - a)
     team2.sort((a, b) => b - a)
-    return "[Team 1: " + team1 + "], " + "[Team 2: " + team2 + "], ";
+    if (threeTeams) {
+        team3.sort((a, b) => b - a)
+        return `[Team 1: ` + team1 + `], total: ${sum_array(team1)}, \n ` + 
+        `[Team 2: ` + team2 + `], total: ${sum_array(team2)}, handicap: ${Math.abs(sum_array(team1) - sum_array(team2))} `
+         + `[Team 3: ` + team3 + `], total: ${sum_array(team3)}, handicap: ${Math.abs(sum_array(team1) - sum_array(team3))} `;
+    } 
+    return `[Team 1: ` + team1 + `], total: ${sum_array(team1)}, \n ` + `[Team 2: ` + team2 + `], total: ${sum_array(team2)}, handicap: ${Math.abs(sum_array(team1) - sum_array(team2))} `;
 }
 
 getTeams.addEventListener('click', () => {
