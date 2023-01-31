@@ -1,0 +1,22 @@
+    1 /node_modules
+    2 /coverage
+    3 /cli
+    4 /lib
+    5 /peers
+    6 /example
+    7 .vscode
+    8 .DS_Store
+    9 tailwind.config.js
+   10 index.html
+   11 yarn.lock
+   12 yarn-error.log
+   13 types/generated/*.d.ts
+   14 
+   15 # Perf related files
+   16 isolate*.log
+   17 
+   18 # Generated files
+   19 /src/corePluginList.js
+   20 
+   21 # Generated files during tests
+   22 /tests/evaluate-tailwind-functions.test.html
