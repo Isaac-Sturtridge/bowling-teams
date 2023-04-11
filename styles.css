@@ -1,8 +1,8 @@
 html, body {
   background-image: url(bowlingart.jpg);
-  background-position: center;
+  background-position: right;
   background-repeat: no-repeat;
-  background-size: 50%;
+  background-size: 30%;
   height: 100%;
   width: 100%;
   padding: 5px;
@@ -20,4 +20,14 @@ html, body {
 
 .form-text {
   margin-bottom: 10px;
+}
+
+.table {
+  width: 50%;
+}
+
+@media screen and (max-width: 1024px) {
+ .table{
+  width:70%;
+ }
 }
